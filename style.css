@@ -275,38 +275,168 @@ ul a{
     padding-top: 5px;
 } 
 
-@media (max-width: 1000px) {
-    .nav-address, .nav-signin, .nav-return, .nav-cart {
-        display: none;
+/* =====================================================
+   RESPONSIVE ADDITIONS (existing code untouched)
+   Approach: desktop-first, max-width breakpoints
+   1200px -> small laptop | 1000px -> tablet
+   768px  -> large phone  | 600px  -> phone | 480px -> small phone
+   ===================================================== */
+
+/* ---------- Small laptop: search bar flexible ---------- */
+@media (max-width: 1200px) {
+    .nav-search {
+        width: auto;
+        flex: 1;
+        min-width: 0;          /* allows flex item to shrink */
+        margin: 0 10px;
     }
-    .panel-all, .panel-ops, .panel-deals {
-        display: none;
+    .search-input {
+        min-width: 0;
     }
 }
 
+/* ---------- Tablet (<=1000px) ---------- */
+@media (max-width: 1000px) {
+
+    /* Navbar: wrap into rows instead of hiding items */
+    .navbar {
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        padding: 8px 10px;
+        gap: 6px 12px;
+    }
+
+    /* bring back items that old code was hiding */
+    .nav-address,
+    .nav-signin,
+    .nav-return,
+    .nav-cart {
+        display: block;
+    }
+
+    /* row order: logo | signin | return | cart  -> search -> address */
+    .nav-logo   { order: 1; margin-right: auto; }
+    .nav-signin { order: 2; }
+    .nav-return { order: 3; }
+    .nav-cart   { order: 4; }
+    .nav-search { order: 5; flex: 0 0 100%; width: 100%; margin: 0; }
+    .nav-address{ order: 6; flex: 0 0 100%; }
+
+    .add-first { margin-left: 0; }
+
+    /* Panel: show again, make it horizontally scrollable */
+    .panel {
+        height: auto;
+        min-height: 40px;
+        padding: 6px 10px;
+        gap: 12px;
+        justify-content: flex-start;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;           /* Firefox */
+    }
+    .panel::-webkit-scrollbar { display: none; }  /* Chrome/Safari */
+
+    .panel-all,
+    .panel-ops,
+    .panel-deals {
+        display: block;
+        flex: none;
+        width: auto;
+    }
+    .panel-ops p {
+        margin-left: 0;
+        margin-right: 15px;
+    }
+
+    /* Shop section: 2 cards per row, height adapts to content */
+    .shop-section {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: stretch;
+    }
+    .box {
+        width: 46%;
+        height: auto;
+        margin: 15px 0 0;
+    }
+    .box-img {
+        height: 260px;
+        background-position: center;
+    }
+}
+
+/* ---------- Large phone (<=768px) ---------- */
 @media (max-width: 768px) {
+
     .hero-section {
         height: 250px;
     }
+    .hero-msg {
+        display: block;          /* text wraps naturally */
+        height: auto;
+        padding: 8px 12px;
+        text-align: center;
+    }
+
+    /* Footer: 2 columns instead of 4 */
+    .foot-panel2 {
+        height: auto;
+        flex-wrap: wrap;
+        padding-bottom: 20px;
+    }
+    .foot-panel2 ul {
+        width: 45%;
+        padding-left: 15px;
+        box-sizing: border-box;
+    }
+    .foot-panel4 {
+        height: auto;
+        padding-bottom: 20px;
+    }
+}
+
+/* ---------- Phone (<=600px) ---------- */
+@media (max-width: 600px) {
+
+    .nav-return { display: none; }   /* save space in top row */
+
+    /* Shop section: 1 card per row */
     .shop-section {
         flex-direction: column;
         align-items: center;
     }
     .box {
-        width: 90%;
-        margin: 10px 0;
+        width: 92%;
+        margin: 10px 0 0;
+    }
+    .box-img {
+        height: 220px;
+    }
+    .box-content h2 {
+        font-size: 1.2rem;
     }
 }
 
+/* ---------- Small phone (<=480px) ---------- */
 @media (max-width: 480px) {
-    .nav-search {
-        display: none;
+
+    .nav-search {               /* old code hid the search bar, show it */
+        display: flex;
+    }
+    .hero-section {
+        height: 200px;
     }
     .hero-msg {
         width: 95%;
         font-size: 0.7rem;
     }
-    .foot-panel2 {
-        display: none;
+    .foot-panel2 {              /* old code hid the footer, show it */
+        display: flex;
+    }
+    .foot-panel2 ul {
+        padding-left: 10px;
     }
 }
